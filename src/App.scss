@@ -1,0 +1,135 @@
+$easing: cubic-bezier(0.4, 0.0, 0.2, 1);
+body{
+  background:black;
+  white-space: nowrap;
+  font-family: 'Roboto', sans-serif;
+  font-size: 72px;
+}
+img{
+  display: block;
+}
+.header{
+  h1{
+    font-weight: normal;
+    color:white;
+    font-size: 48px;
+    padding-left: 32px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+}
+.contato{
+  font-size: 48px;
+  .lista{
+    font-weight: normal;
+  }
+}
+.lista{
+  .lista{
+    font-weight: normal;
+    font-size: 0.75em;
+    overflow-y:hidden !important;
+  }
+  box-sizing: border-box;
+  white-space: nowrap;
+  margin:0;
+  list-style: none;
+  overflow-y:hidden;
+  padding-left:0;
+  transform:scaleY(1);
+  &-fechada,&-fechando{
+    max-height: 0px;
+    .elemento{
+      .lista-up,.lista-down{
+        display: block !important;
+      }
+    }
+  }
+  &-abrindo,&-aberta{
+    height: auto;
+    max-height: 200vh;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    .elemento{
+      .lista-up,.lista-down{
+        display: block !important;
+      }
+    }
+  }
+  &-abrindo{
+    color:white;
+    transition: all 1s $easing;
+  }
+  &-aberta{
+    overflow-y:auto;
+    color:white;
+  }
+  &-fechada{
+    color:black;
+  }
+  &-fechando{
+    transition: all 0.5s $easing;
+    color:black;
+  }
+  .elemento{
+    &-categoria{
+      >.lista-up{
+        max-height: 0.5em !important;
+        .texto{
+          margin-top: -0.5em !important;
+        }
+      }
+      >.lista-down{
+        max-height: 0.65em !important;
+      }
+    }
+    &:hover{
+      background: rgba(255,255,255,0.0625);
+      >.lista-up,>.lista-down{
+        .texto{
+          color:white;
+        }  
+      }
+    }
+    >.lista-up,>.lista-down{
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      overflow: hidden;
+      box-sizing: border-box;
+      max-height: 1em;
+      cursor: pointer;
+      .texto{
+        &:hover{
+          background: none;
+        }
+        display: block;
+        font-size: 1em;
+        line-height: 1;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+      }
+    }
+    .lista-up{
+      .texto{
+        margin-top: 0em;
+      }
+    }
+    .lista-down{
+      .texto{
+        margin-top: -1em;
+      }
+    }
+    a{
+      padding-left:32px;
+      padding-right:32px;
+      cursor: pointer;
+      display: block;
+      color:rgba(255,255,255,0.5);
+      text-decoration: none;
+      &:hover{
+        color:white;
+        background: rgba(255,255,255,0.0625);
+      }
+    }
+  }
+}

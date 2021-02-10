@@ -1,105 +1,111 @@
-$easing: cubic-bezier(0.4, 0.0, 0.2, 1);
-body{
-  background:black;
+$easing: cubic-bezier(0.4, 0, 0.2, 1);
+body {
+  background: black;
   white-space: nowrap;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 72px;
 }
-img{
+img {
   display: block;
 }
-.header{
-  h1{
+.header {
+  h1 {
     font-weight: normal;
-    color:white;
+    color: white;
     font-size: 48px;
     padding-left: 32px;
     margin-top: 16px;
     margin-bottom: 8px;
   }
 }
-.contato{
+.contato {
   font-size: 48px;
-  .lista{
+  .lista {
     font-weight: normal;
   }
 }
-.lista{
-  .lista{
+.lista {
+  .lista {
     font-weight: normal;
     font-size: 0.75em;
-    overflow-y:hidden !important;
+    overflow-y: hidden !important;
   }
   box-sizing: border-box;
   white-space: nowrap;
-  margin:0;
+  margin: 0;
   list-style: none;
-  overflow-y:hidden;
-  padding-left:0;
-  transform:scaleY(1);
-  &-fechada,&-fechando{
+  overflow-y: hidden;
+  padding-left: 0;
+  transform: scaleY(1);
+  &-fechada,
+  &-fechando {
     max-height: 0px;
-    .elemento{
-      .lista-up,.lista-down{
+    .elemento {
+      .lista-up,
+      .lista-down {
         display: block !important;
       }
     }
   }
-  &-abrindo,&-aberta{
+  &-abrindo,
+  &-aberta {
     height: auto;
     max-height: 200vh;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    .elemento{
-      .lista-up,.lista-down{
+    .elemento {
+      .lista-up,
+      .lista-down {
         display: block !important;
       }
     }
   }
-  &-abrindo{
-    color:white;
+  &-abrindo {
+    color: white;
     transition: all 1s $easing;
   }
-  &-aberta{
-    overflow-y:auto;
-    color:white;
+  &-aberta {
+    overflow-y: auto;
+    color: white;
   }
-  &-fechada{
-    color:black;
+  &-fechada {
+    color: black;
   }
-  &-fechando{
+  &-fechando {
     transition: all 0.5s $easing;
-    color:black;
+    color: black;
   }
-  .elemento{
-    &-categoria{
-      >.lista-up{
+  .elemento {
+    &-categoria {
+      > .lista-up {
         max-height: 0.5em !important;
-        .texto{
+        .texto {
           margin-top: -0.5em !important;
         }
       }
-      >.lista-down{
+      > .lista-down {
         max-height: 0.65em !important;
       }
     }
-    &:hover{
-      background: rgba(255,255,255,0.0625);
-      >.lista-up,>.lista-down{
-        .texto{
-          color:white;
-        }  
+    &:hover {
+      background: rgba(255, 255, 255, 0.0625);
+      > .lista-up,
+      > .lista-down {
+        .texto {
+          color: white;
+        }
       }
     }
-    >.lista-up,>.lista-down{
+    > .lista-up,
+    > .lista-down {
       -webkit-tap-highlight-color: transparent;
       user-select: none;
       overflow: hidden;
       box-sizing: border-box;
       max-height: 1em;
       cursor: pointer;
-      .texto{
-        &:hover{
+      .texto {
+        &:hover {
           background: none;
         }
         display: block;
@@ -109,26 +115,30 @@ img{
         padding-bottom: 0.5em;
       }
     }
-    .lista-up{
-      .texto{
+    .lista-up {
+      .texto {
         margin-top: 0em;
       }
     }
-    .lista-down{
-      .texto{
+    .lista-down {
+      .texto {
         margin-top: -1em;
       }
     }
-    a{
-      padding-left:32px;
-      padding-right:32px;
+    a,
+    button {
+      outline: none;
+      border: none;
+      background: transparent;
+      padding-left: 32px;
+      padding-right: 32px;
       cursor: pointer;
       display: block;
-      color:rgba(255,255,255,0.5);
+      color: rgba(255, 255, 255, 0.5);
       text-decoration: none;
-      &:hover{
-        color:white;
-        background: rgba(255,255,255,0.0625);
+      &:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.0625);
       }
     }
   }

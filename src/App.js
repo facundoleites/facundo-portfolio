@@ -169,6 +169,10 @@ class Arte extends Categoria {
             texto={"digital"}
             filhos={[
               <ElementoLista
+                texto={"mobile 03"}
+                link={"https://www.behance.net/gallery/113726597/Mobile-03"}
+              />,
+              <ElementoLista
                 texto={"mobile 02"}
                 link={"https://www.behance.net/gallery/112042009/Mobile-02"}
               />,
@@ -349,6 +353,21 @@ class Code extends Categoria {
   }
 }
 
+class CryptoArt extends ElementoLista {
+  constructor(props) {
+    super(props);
+    this.up = React.createRef();
+    this.down = React.createRef();
+    this.state = {};
+    this.state.texto = "cryptoart";
+    this.state.link = "https://opensea.io/accounts/facundoleites";
+    this.state.onClick = () => {};
+    this.classesAdicionais.push("categoria");
+    this.classesAdicionais.push("cryptoart");
+    this.state.filhos = [];
+  }
+}
+
 class Design extends Categoria {
   constructor(props) {
     super(props);
@@ -417,7 +436,10 @@ class Design extends Categoria {
 class ContainerMain extends React.Component {
   render() {
     return (
-      <Lista status={"aberta"} elementos={[<Arte />, <Code />, <Design />]} />
+      <Lista
+        status={"aberta"}
+        elementos={[<Arte />, <Code />, <Design />, <CryptoArt />]}
+      />
     );
   }
 }

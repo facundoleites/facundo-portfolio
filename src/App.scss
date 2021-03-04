@@ -3,7 +3,7 @@ body {
   background: black;
   white-space: nowrap;
   font-family: "Roboto", sans-serif;
-  font-size: 72px;
+  font-size: 40pt;
 }
 img {
   display: block;
@@ -12,14 +12,14 @@ img {
   h1 {
     font-weight: normal;
     color: white;
-    font-size: 48px;
-    padding-left: 32px;
-    margin-top: 16px;
-    margin-bottom: 8px;
+    font-size: 32pt;
+    padding-left: 26pt;
+    margin-top: 16pt;
+    margin-bottom: 8pt;
   }
 }
 .contato {
-  font-size: 48px;
+  font-size: 32pt;
   .lista {
     font-weight: normal;
   }
@@ -76,6 +76,11 @@ img {
     color: black;
   }
   .elemento {
+    &-cryptoart {
+      a {
+        color: #00ffdc !important;
+      }
+    }
     &-categoria {
       > .lista-up {
         max-height: 0.5em !important;
@@ -130,8 +135,8 @@ img {
       outline: none;
       border: none;
       background: transparent;
-      padding-left: 32px;
-      padding-right: 32px;
+      padding-left: 26pt;
+      padding-right: 26pt;
       cursor: pointer;
       display: block;
       color: rgba(255, 255, 255, 0.5);

@@ -297,29 +297,11 @@ class Arte extends Categoria {
         filhos={[
           <ElementoLista
             texto={"español"}
-            filhos={[
-              <ElementoLista
-                texto={
-                  "sobre 2018, sobre lo que sentí este año o las pocas cosas que no me animé a decir pero tuve coraje de escribir"
-                }
-                link={
-                  "https://medium.com/@facundoleites/sobre-2018-sobre-lo-que-sent%C3%AD-este-a%C3%B1o-o-las-pocas-cosas-que-no-me-anim%C3%A9-a-decir-pero-tuve-coraje-12c1ca9e6d25"
-                }
-              />,
-            ]}
+            link="https://poetry.facundoleites.com/es-AR"
           />,
           <ElementoLista
             texto={"português"}
-            filhos={[
-              <ElementoLista
-                texto={
-                  "sobre 2018, o que senti ou o que não tive coragem de dizer mas consegui escrever"
-                }
-                link={
-                  "https://medium.com/@facundoleites/sobre-2018-o-que-senti-ou-o-que-n%C3%A3o-tive-coragem-de-dizer-mas-consegui-escrever-4fe5fdfb19be"
-                }
-              />,
-            ]}
+            link="https://poetry.facundoleites.com/pt-BR"
           />,
         ]}
       />,

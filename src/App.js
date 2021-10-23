@@ -304,11 +304,11 @@ class Arte extends Categoria {
         texto={"poesía"}
         filhos={[
           <ElementoLista
-            texto={"español"}
+            texto="español"
             link="https://poetry.facundoleites.com/es-AR"
           />,
           <ElementoLista
-            texto={"português"}
+            texto="português"
             link="https://poetry.facundoleites.com/pt-BR"
           />,
         ]}

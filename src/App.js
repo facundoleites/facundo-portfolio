@@ -169,6 +169,12 @@ class Arte extends Categoria {
             texto={"digital"}
             filhos={[
               <ElementoLista
+                texto={"steampunk cats"}
+                link={
+                  "https://www.behance.net/gallery/120431437/Steampunk-Cats"
+                }
+              />,
+              <ElementoLista
                 texto={"medieval cats"}
                 link={"https://www.behance.net/gallery/116829457/Medieval-Cats"}
               />,

@@ -169,6 +169,14 @@ class Arte extends Categoria {
             texto={"digital"}
             filhos={[
               <ElementoLista
+                texto={"medieval cats"}
+                link={"https://www.behance.net/gallery/116829457/Medieval-Cats"}
+              />,
+              <ElementoLista
+                texto={"space cats"}
+                link={"https://www.behance.net/gallery/115577261/Space-cats"}
+              />,
+              <ElementoLista
                 texto={"mobile 03"}
                 link={"https://www.behance.net/gallery/113726597/Mobile-03"}
               />,
@@ -297,29 +305,11 @@ class Arte extends Categoria {
         filhos={[
           <ElementoLista
             texto={"español"}
-            filhos={[
-              <ElementoLista
-                texto={
-                  "sobre 2018, sobre lo que sentí este año o las pocas cosas que no me animé a decir pero tuve coraje de escribir"
-                }
-                link={
-                  "https://medium.com/@facundoleites/sobre-2018-sobre-lo-que-sent%C3%AD-este-a%C3%B1o-o-las-pocas-cosas-que-no-me-anim%C3%A9-a-decir-pero-tuve-coraje-12c1ca9e6d25"
-                }
-              />,
-            ]}
+            link="https://poetry.facundoleites.com/es-AR"
           />,
           <ElementoLista
             texto={"português"}
-            filhos={[
-              <ElementoLista
-                texto={
-                  "sobre 2018, o que senti ou o que não tive coragem de dizer mas consegui escrever"
-                }
-                link={
-                  "https://medium.com/@facundoleites/sobre-2018-o-que-senti-ou-o-que-n%C3%A3o-tive-coragem-de-dizer-mas-consegui-escrever-4fe5fdfb19be"
-                }
-              />,
-            ]}
+            link="https://poetry.facundoleites.com/pt-BR"
           />,
         ]}
       />,
@@ -350,21 +340,6 @@ class Code extends Categoria {
         ]}
       />,
     ];
-  }
-}
-
-class CryptoArt extends ElementoLista {
-  constructor(props) {
-    super(props);
-    this.up = React.createRef();
-    this.down = React.createRef();
-    this.state = {};
-    this.state.texto = "cryptoart";
-    this.state.link = "https://opensea.io/accounts/facundoleites";
-    this.state.onClick = () => {};
-    this.classesAdicionais.push("categoria");
-    this.classesAdicionais.push("cryptoart");
-    this.state.filhos = [];
   }
 }
 
@@ -436,10 +411,7 @@ class Design extends Categoria {
 class ContainerMain extends React.Component {
   render() {
     return (
-      <Lista
-        status={"aberta"}
-        elementos={[<Arte />, <Code />, <Design />, <CryptoArt />]}
-      />
+      <Lista status={"aberta"} elementos={[<Arte />, <Code />, <Design />]} />
     );
   }
 }
@@ -498,11 +470,28 @@ class Contato extends Categoria {
   }
 }
 
+class Apoio extends Categoria {
+  constructor(props) {
+    super(props);
+    this.state.texto = "support / apoio";
+    this.state.filhos = [
+      <ElementoLista
+        texto={"USD - Patreon"}
+        link={"https://www.patreon.com/leitesfacundo"}
+      />,
+      <ElementoLista
+        texto={"R$ - Apoia se"}
+        link={"https://apoia.se/leitesfacundo"}
+      />,
+    ];
+  }
+}
+
 class Footer extends React.Component {
   render() {
     return (
       <footer className="contato">
-        <Lista status={"aberta"} elementos={[<Contato />]} />
+        <Lista status={"aberta"} elementos={[<Apoio />, <Contato />]} />
       </footer>
     );
   }

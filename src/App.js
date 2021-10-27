@@ -167,7 +167,13 @@ class Arte extends Categoria {
         filhos={[
           <ElementoLista
             texto={"digital"}
-            filhos={[
+            filhos={[              
+              <ElementoLista
+                texto="Felicette V Zombie"
+                link={
+                  "https://www.behance.net/gallery/130118449/Felicette-V-Zombie"
+                }
+              />,
               <ElementoLista
                 texto={"steampunk cats"}
                 link={

@@ -1,2 +1,0 @@
-# facundo-portfolio
- portfolio pessoal

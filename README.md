@@ -1,2 +1,11 @@
-![](https://media.giphy.com/media/Ws4IXJwfimZXpzXN78/giphy.gif)
-![](https://media.giphy.com/media/LPBT4TKwBb4I3Je76W/giphy.gif)
+# Facundo Leites portfolio
+
+A simple, pure HTML and CSS site designed to showcase and centralize my work.
+
+## Laptop
+
+![screen_laptop](screen_laptop.png)
+
+## Mobile
+
+![screen_mobile](screen_mobile.jpg)

@@ -24,7 +24,7 @@ body {
   flex-direction: column;
   row-gap: 1rem;
   position: relative;
-  padding-top:3.75rem;
+  padding-top: 3.75rem;
 }
 
 @media (min-width: 350px) {
@@ -34,12 +34,18 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
     min-height: 100dvh;
-    align-items: baseline;
+    align-items: stretch;
   }
 
   footer {
-    align-self: flex-end;
     grid-column-end: span 2;
+  }
+
+  header .decoration,
+  footer .decoration,
+  main .decoration {
+    flex: 1;
+    border: 0.5rem solid var(--accent-color);
   }
 }
 
@@ -48,7 +54,7 @@ body {
     grid-template-columns: auto 1fr auto;
   }
 
-  footer{
+  footer {
     grid-column-end: initial;
   }
 }
@@ -59,6 +65,27 @@ h2,
 h1 {
   line-height: 1em;
   margin-bottom: 1em;
+}
+
+header h1 {
+  margin-bottom: 0;
+}
+
+header,
+footer,
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+main {
+  gap: 0;
+}
+
+main > ul,
+footer > ul {
+  margin-bottom: 0;
 }
 
 header,
@@ -79,47 +106,52 @@ li {
   line-height: 1.2em;
   display: block;
   overflow: hidden;
-  height:auto;
+  height: auto;
 }
 
 a {
   color: inherit;
   padding: 1rem 0;
-  display:block;
+  display: block;
 }
 
-button{
+button {
   outline: none;
-  border:none;
+  border: none;
   border-radius: 0.25rem;
   background: transparent;
   color: var(--color);
   padding: 0.5rem 1rem;
-  display:block;
-  line-height:1;
-  margin-bottom:1rem;
+  display: block;
+  line-height: 1;
+  margin-bottom: 1rem;
 }
 
-a:active, a:focus, button:active, button:focus {
+a:active,
+a:focus,
+button:active,
+button:focus {
   text-decoration: underline;
   background-color: var(--color);
   color: var(--accent-color);
 }
 
 @media (hover: hover) {
-  a{
+  a {
     padding: 0.125em 0;
   }
 
-  a,button {
+  a,
+  button {
     transition: padding 0.3s ease-in;
   }
 
-  a:hover{
+  a:hover {
     padding: 0.25em 0;
   }
 
-  a:hover, button:hover {
+  a:hover,
+  button:hover {
     background-color: var(--accent-color);
     color: var(--color);
     text-decoration: none;
@@ -130,38 +162,39 @@ p {
   margin-bottom: 1rem;
 }
 
-.settings{
+.settings {
   background-color: var(--color);
   color: var(--background-color);
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  padding:0.5rem;
-  overflow-x:auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  overflow-x: auto;
 }
 
-.settings ul{
-  margin-bottom:0;
-  display:flex;
-  gap:0.5rem;
+.settings ul {
+  margin-bottom: 0;
+  display: flex;
+  gap: 0.5rem;
   width: fit-content;
 }
 
-.settings button{
-  cursor:pointer;
-  color:inherit;
-  margin-bottom:0;
-  font-size:0.75rem;
-  white-space:nowrap;
+.settings button {
+  cursor: pointer;
+  color: inherit;
+  margin-bottom: 0;
+  font-size: 0.75rem;
+  white-space: nowrap;
 }
 
-.settings button:hover{
+.settings button:hover {
   background-color: var(--accent-color);
   color: var(--color);
 }
 
-.settings button:active, button:focus {
+.settings button:active,
+button:focus {
   background-color: var(--background-color);
   color: var(--color);
 }

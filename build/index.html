@@ -20,212 +20,282 @@
     <link rel="manifest" href="/manifest.json" />
     <title>Facundo Leites</title>
     <link href="static/css/main.css" rel="stylesheet" />
+    <link href="static/css/absolute-grid.css" rel="stylesheet" />
     <script src="scripts.js" defer></script>
   </head>
   <body>
+    <div class="bg">
+      <div class="fg-grid">
+        <div class="fg-row">
+          <div class="fg-col-3 md:fg-col-4 lg:fg-col-3 lg:fg-offset-2">
+            <img
+              src="static/images/profile.webp"
+              alt="Photography of Facundo Leites. A 30 years old male, with short black hair and a moustache wearing a black oversized t-shirt."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     <header>
-      <h1>Facundo Leites</h1>
-      <div class="decoration"></div>
+      <div class="fg-grid">
+        <div class="fg-row">
+          <div class="fg-col-6 md:fg-col-6 lg:fg-col-4">
+            <h1>Facundo Leites</h1>
+          </div>
+          <div class="fg-col-6 md:fg-col-6 lg:fg-col-5">
+            <div class="hover-preview">
+              <video autoplay loop muted playsinline id="v_hplaceholder">
+                <source type="video/webm" />
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
     <main>
-      <ul>
-        <li>
-          <h2>Art</h2>
-          <ul>
-            <li>
-              <h3>
-                Illustrations, Digital Paintings, Sketchbooks, Pixel art, 3D
-                Modeling & Creative Coding
-              </h3>
-              <ul>
-                <li>
-                  <a
-                    href="https://art.facundoleites.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >art.facundoleites.com</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h3>Origami</h3>
-              <ul>
-                <li>
-                  <a
-                    href="https://daily.tsurunomundo.com.br"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Tsuru No Mundo: Daily</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://tsurunomundo.com.br"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Tsuru No Mundo</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h3>Poetry</h3>
-              <ul>
-                <li>
-                  <a
-                    href="https://poetry.facundoleites.com/es-AR"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >español</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://poetry.facundoleites.com/pt-BR"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >português</a
-                  >
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <h2>Code</h2>
-          <ul>
-            <li>
-              <p>All my coding projects can be found at Felicette's page:</p>
-              <ul>
-                <li>
-                  <a
-                    href="https://felicette.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >felicette.app</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://felicette.dev"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >felicette.dev</a
-                  >
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <div class="decoration"></div>
+      <div class="fg-grid">
+        <div class="fg-row">
+          <div class="fg-col-3 md:fg-col-4 lg:fg-col-2 lg:fg-offset-1">
+            <div class="hover-preview">
+              <video autoplay loop muted playsinline id="v_vplaceholder">
+                <source type="video/webm" />
+              </video>
+            </div>
+          </div>
+          <div class="fg-col-9 md:fg-col-8 lg:fg-col-3 lg:fg-offset-2">
+            <h2>Art</h2>
+            <ul>
+              <li>
+                <h3>
+                  Illustrations, Digital Paintings, Sketchbooks, Pixel art, 3D
+                  Modeling & Creative Coding
+                </h3>
+                <ul>
+                  <li>
+                    <a
+                      href="https://art.facundoleites.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-vhplaceholder="static/videos/art_facundoleites_wide.webm"
+                      data-vvplaceholder="static/videos/art_facundoleites_mobile.webm"
+                      >art.facundoleites.com</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <h3>Origami</h3>
+                <ul>
+                  <li>
+                    <a
+                      href="https://daily.tsurunomundo.com.br"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-vhplaceholder="static/videos/daily_tsurunomundo_wide.webm"
+                      data-vvplaceholder="static/videos/daily_tsurunomundo_mobile.webm"
+                      >Tsuru No Mundo: Daily</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://tsurunomundo.com.br"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-vhplaceholder="static/videos/tsurunomundo_wide.webm"
+                      data-vvplaceholder="static/videos/tsurunomundo_mobile.webm"
+                      >Tsuru No Mundo</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <h3>Poetry</h3>
+                <ul>
+                  <li>
+                    <a
+                      href="https://poetry.facundoleites.com/es-AR"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://poetry.facundoleites.com/pt-BR"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >português</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="fg-col-9 md:fg-col-8 fg-offset-3 md:fg-offset-4 lg:fg-offset-0 lg:fg-col-3 xl:fg-offset-0"
+          >
+            <h2>Code</h2>
+            <ul>
+              <li>
+                <p>All my coding projects can be found at Felicette's page:</p>
+                <ul>
+                  <li>
+                    <a
+                      href="https://felicette.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >felicette.app</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://felicette.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >felicette.dev</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </main>
     <footer>
-      <div class="decoration"></div>
-      <ul>
-        <li>
-          <p><small>Feito com amor e gatos em Curitiba</small></p>
-        </li>
-        <li>
-          <h4>Contact</h4>
-          <ul>
-            <li>
-              <a
-                href="https://bsky.app/profile/facundoleites.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                >bsky</a
+      <div class="fg-grid">
+        <div class="fg-row">
+          <div class="fg-col-12 md:fg-col-2 lg:fg-offset-1 cats-text">
+            <p>
+              <small
+                >Feito com amor e <strong>gatos</strong> em
+                <strong>Curitiba</strong></small
               >
-            </li>
-            <li>
-              <a
-                href="https://pixelfed.social/facundoleites"
-                target="_blank"
-                rel="noopener noreferrer"
-                >pixelfed</a
-              >
-            </li>
-            <li>
-              <a rel="me" href="https://mastodon.social/@facundoleites"
-                >mastodon</a
-              >
-            </li>
-
-            <li>
-              <a
-                href="http://www.behance.net/facundoleites"
-                target="_blank"
-                rel="noopener noreferrer"
-                >behance</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://www.youtube.com/channel/UCfi9qTd0HEgu7o20gfUcWzA"
-                target="_blank"
-                rel="noopener noreferrer"
-                >youtube</a
-              >
-            </li>
-            <li>
-              <a
-                href="mailto:hola@facundoleites.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                >hola@facundoleites.com</a
-              >
-            </li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>
-              <a
-                href="https://felicette.app"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+            </p>
+          </div>
+          <div
+            class="fg-absolute-offset-2 lg:fg-absolute-offset-3 fg-col-10 lg:fg-col-5 cats-preview"
+          >
+            <div class="fg-row">
+              <div class="fg-col-2 lg:fg-col-1">
                 <img
-                  src="static/images/felicette.app.gif"
-                  alt="Felicette.app"
+                  src="static/images/elodie.webp"
+                  alt="A picture of Elodie (a female black cat)"
                 />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://tsurunomundo.com.br"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              </div>
+              <div class="fg-col-2 lg:fg-col-1">
                 <img
-                  src="static/images/tsurunomundo.com.br.gif"
-                  alt="tsurunomundo.com.br"
+                  src="static/images/berenice.webp"
+                  alt="A picture of Berenice (a female orange cat)"
                 />
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+              </div>
+              <div class="fg-col-2 lg:fg-col-1">
+                <img
+                  src="static/images/sabrina.webp"
+                  alt="A picture of Sabrina (a female black cat)"
+                />
+              </div>
+              <div class="fg-col-2 lg:fg-col-1">
+                <img
+                  src="static/images/jb.webp"
+                  alt="A picture of the botanical garden of Curitiba"
+                />
+              </div>
+              <div class="fg-col-2 lg:fg-col-1">
+                <img
+                  src="static/images/mon.webp"
+                  alt="A picture of the Oscar Niemeyer Museum in Curitiba"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="fg-col-6 md:fg-col-3 md:fg-offset-2">
+            <h4>Contact</h4>
+            <ul>
+              <li>
+                <a
+                  href="https://bsky.app/profile/facundoleites.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >bsky</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://pixelfed.social/facundoleites"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >pixelfed</a
+                >
+              </li>
+              <li>
+                <a rel="me" href="https://mastodon.social/@facundoleites"
+                  >mastodon</a
+                >
+              </li>
+              <li>
+                <a
+                  href="mailto:hola@facundoleites.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >hola@facundoleites.com</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="fg-col-6 md:fg-col-2">
+            <ul>
+              <li>
+                <a
+                  href="https://felicette.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="static/images/felicette.app.gif"
+                    alt="Felicette.app"
+                  />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://tsurunomundo.com.br"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="static/images/tsurunomundo.com.br.gif"
+                    alt="tsurunomundo.com.br"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </footer>
     <section class="settings">
-      <ul>
-        <li>
-          <button id="toggle-theme" aria-label="Toggle theme">
-            Toggle theme
-          </button>
-        </li>
-        <li>
-          <button id="size-more" aria-label="Increase text size">
-            Font size +
-          </button>
-        </li>
-        <li>
-          <button id="size-less" aria-label="Decrease text size">
-            Font size -
-          </button>
-        </li>
-      </ul>
+      <div class="fg-grid">
+        <div class="fg-row">
+          <div
+            class="fg-col-4 md:fg-col-2 md:fg-offset-4 xl:fg-col-1 lg:fg-offset-5 xl:fg-offset-8"
+          >
+            <button id="toggle-theme" aria-label="Toggle theme">
+              Toggle theme
+            </button>
+          </div>
+          <div class="fg-col-4 md:fg-col-2 xl:fg-col-1">
+            <button id="size-more" aria-label="Increase text size">
+              Font size +
+            </button>
+          </div>
+          <div class="fg-col-4 md:fg-col-2 xl:fg-col-1">
+            <button id="size-less" aria-label="Decrease text size">
+              Font size -
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
   </body>
 </html>

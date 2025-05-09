@@ -174,7 +174,6 @@ footer small strong {
   overflow: hidden;
   opacity: 0;
   object-fit: cover;
-  background: var(--background-color);
 }
 
 .hover-preview video:has(source[src]) {

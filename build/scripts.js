@@ -40,19 +40,6 @@ const setTheme = (theme) => {
   );
   document.documentElement.style.setProperty("--color", themes[theme].color);
   currentTheme = theme;
-  generateSvgBackground();
-};
-
-const generateSvgBackground = () => {
-  const headerBackgroundBaseSvg = `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='20' height='20' patternTransform='scale(0.75) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='SECOND_COLOR'/><path d='M0 10h20z'   stroke-width='5' stroke='MAIN_COLOR' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>")`;
-  const headerSvg = headerBackgroundBaseSvg
-    .replace(/MAIN_COLOR/g, themes[currentTheme].color)
-    .replace(/SECOND_COLOR/g, themes[currentTheme].background);
-
-  document.documentElement.style.setProperty("--header-background", headerSvg);
-
-  const footerBg = headerSvg.replace("rotate(0)", "rotate(90)");
-  document.documentElement.style.setProperty("--footer-background", footerBg);
 };
 
 const toggleTheme = (e) => {

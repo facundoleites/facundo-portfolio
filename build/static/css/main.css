@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   line-height: 1em;
+  text-wrap: balance;
 }
 
 html {
@@ -43,15 +44,13 @@ footer {
 body {
   font-family: var(--font-family);
   position: relative;
-  padding-top: 4.75rem;
+  padding-top: 3rem;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   min-height: 100dvh;
   --fg-grid-width: 500px;
 }
-
-
 
 main {
   flex: 1;
@@ -61,7 +60,6 @@ main {
 main > .fg-grid {
   flex: 1;
 }
-
 
 h4,
 h3,
@@ -76,12 +74,12 @@ header {
   right: 0;
   bottom: 0;
   top: 0;
-  padding-top: 1rem;
 }
 
 header h1 {
   font-size: 3rem;
   margin-bottom: 0rem;
+  margin-top: 2rem;
 }
 
 header,
@@ -109,17 +107,8 @@ main h2 + ul > li + li {
   margin-top: 1rem;
 }
 
-header,
-main,
-footer {
-  //  overflow: hidden;
-}
-
 footer {
   padding-bottom: 1rem;
-}
-
-ul {
 }
 
 li {
@@ -173,11 +162,8 @@ footer small strong {
   height: 100%;
   overflow: hidden;
   opacity: 0;
-  object-fit: cover;
-}
-
-.hover-preview video:has(source[src]) {
-  //  display:block;
+  object-fit: contain;
+  object-position: top left;
 }
 
 .cats-text small strong:hover {
@@ -268,10 +254,11 @@ footer {
   overflow-x: auto;
   z-index: 3;
   backdrop-filter: blur(1rem);
+  //  background:blue;
 }
 
 .settings button {
-  padding:0.25rem 0;
+  padding: 0.25rem 0;
   cursor: pointer;
   color: inherit;
   margin-bottom: 0;
@@ -290,7 +277,6 @@ button:focus {
   color: var(--color);
 }
 
-
 @media screen and (min-width: 576px) {
   body {
     --fg-grid-width: 536px;
@@ -302,7 +288,7 @@ button:focus {
     --fg-grid-width: 728px;
   }
 
-  header h1{
+  header h1 {
     font-size: 4rem;
   }
 }
@@ -315,7 +301,6 @@ button:focus {
   main h2 + ul {
     margin-bottom: 2rem;
   }
-
 }
 
 @media screen and (min-width: 1200px) {
@@ -328,7 +313,7 @@ button:focus {
   body {
     --fg-grid-width: 1360px;
   }
-  header h1{
+  header h1 {
     font-size: 6rem;
   }
 }
@@ -337,7 +322,7 @@ button:focus {
   body {
     --fg-grid-width: 1880px;
   }
-  header h1{
+  header h1 {
     font-size: 7rem;
   }
 }

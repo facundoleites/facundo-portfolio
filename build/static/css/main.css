@@ -150,20 +150,20 @@ footer small strong {
 }
 
 .hover-preview {
-  overflow: hidden;
   display: flex;
   position: relative;
   height: 100%;
+  pointer-events: none;
 }
 
 .hover-preview video {
+  pointer-events: none;
   position: absolute;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  opacity: 0;
   object-fit: contain;
-  object-position: top left;
+  object-position: center left;
 }
 
 .cats-text small strong:hover {

@@ -165,6 +165,7 @@ footer small strong {
   overflow: hidden;
   object-fit: contain;
   object-position: center left;
+  opacity: 0;
 }
 
 .cats-text small strong:hover {

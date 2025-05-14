@@ -1,9 +1,9 @@
-const getRandomColor = ()=>{
+const getRandomColor = () => {
   const red = Math.floor(Math.random() * 256);
   const green = Math.floor(Math.random() * 256);
   const blue = Math.floor(Math.random() * 256);
   return `rgb(${red}, ${green}, ${blue})`;
-}
+};
 const THEMES = {
     light: {
       background: "rgb(255,255,255)",
@@ -23,30 +23,47 @@ const THEMES = {
       accentColor: "white",
       fontFamily: '"Noto Serif", serif',
     },
-    random:{
+    random: {
       background: getRandomColor(),
       color: getRandomColor(),
       accentColor: getRandomColor(),
       fontFamily: '"Space Grotesk", sans-serif',
-    }
-    
+    },
   },
   AVAILABLE_THEMES = Object.keys(THEMES),
   FONT_MAX_SIZE = 20,
   FONT_MIN_SIZE = 8,
-  HOVER_ANIMATION_DURATION = 350,
+  HOVER_ANIMATION_DURATION = 250,
   HOVER_ANIMATION_EASING = "cubic-bezier(0.22, 1, 0.36, 1)",
   HOVER_ANIMATION_OUT_EASING = "cubic-bezier(0.64, 0, 0.78, 0)",
   VIDEO_PREVIEW_STATE = {
-    verticalSrc: null,
-    horizontalSrc: null,
+    currentZ: 100,
     controller: new AbortController(),
+    hoverVert: null,
+    hoverHor: null,
+    lastHoverTime: 0,
+    lastLeaveTime: 0,
+    animations: {
+      "static/videos/art_facundoleites_mobile.webm": null,
+      "static/videos/daily_tsurunomundo_mobile.webm": null,
+      "static/videos/felicette_dev_mobile.webm": null,
+      "static/videos/tsurunomundo_mobile.webm": null,
+      "static/videos/art_facundoleites_wide.webm": null,
+      "static/videos/daily_tsurunomundo_wide.webm": null,
+      "static/videos/felicette_dev_wide.webm": null,
+      "static/videos/tsurunomundo_wide.webm": null,
+    },
+  },
+  VIDEO_PREVIEW_ANIMATION_DIRECTION = {
+    VERTICAL: "vertical",
+    HORIZONTAL: "horizontal",
   };
 
 let currentTheme = "dark",
   currentFontSize = 16;
 
-let hVideoAnimation, vVideoAnimation, handleVideoPreviewEventsDebounceTimeout;
+let handleVideoPreviewEventsDebounceTimeout,
+  mouseLeaveTimeout = 0;
 
 let vplaceholderEl, hplaceholderEl, vSourceEl, hSourceEl;
 
@@ -101,201 +118,127 @@ const decrementFontSize = () => {
   setFontSize(currentFontSize);
 };
 
-const showVideoPreview = async (verticalSrc, HorizontalSrc) => {
-  if (VIDEO_PREVIEW_STATE.verticalSrc) {
-    try {
-      await hideVideoPreview(
-        VIDEO_PREVIEW_STATE.verticalSrc,
-        VIDEO_PREVIEW_STATE.horizontalSrc
-      );
-    } catch (_) {}
-  }
-
-  VIDEO_PREVIEW_STATE.controller = new AbortController();
-  const signal = VIDEO_PREVIEW_STATE.controller.signal;
-
-  VIDEO_PREVIEW_STATE.verticalSrc = verticalSrc;
-  VIDEO_PREVIEW_STATE.horizontalSrc = HorizontalSrc;
-
-  try {
-    vplaceholderEl.defaultPlaybackRate = 2;
-    hplaceholderEl.defaultPlaybackRate = 2;
-  } catch (_) {}
-
-  if (signal.aborted) return;
-
-  vSourceEl.setAttribute("src", verticalSrc);
-  hSourceEl.setAttribute("src", HorizontalSrc);
-
-  vplaceholderEl.load();
-  hplaceholderEl.load();
-
-  if (signal.aborted) return;
-
-  try {
-    hVideoAnimation = hplaceholderEl.animate(
-      [
-        {},
-        {
-          opacity: 1,
-          transform: "translateY(0)",
-        },
-      ],
-      {
-        fill: "forwards",
-        duration: HOVER_ANIMATION_DURATION,
-        easing: HOVER_ANIMATION_EASING,
-      }
-    );
-    vVideoAnimation = vplaceholderEl.animate(
-      [
-        {},
-        {
-          opacity: 1,
-          transform: "translateX(0)",
-        },
-      ],
-      {
-        fill: "forwards",
-        duration: HOVER_ANIMATION_DURATION,
-        easing: HOVER_ANIMATION_EASING,
-      }
-    );
-
-    signal.addEventListener("abort", () => {
-      if (hVideoAnimation) {
-        hVideoAnimation.commitStyles();
-        hVideoAnimation.cancel();
-      }
-      if (vVideoAnimation) {
-        vVideoAnimation.commitStyles();
-        vVideoAnimation.cancel();
-      }
-    });
-
-    await Promise.all([hVideoAnimation.finished, vVideoAnimation.finished]);
-
-    if (signal.aborted) return;
-
-    if (hVideoAnimation) {
-      hVideoAnimation.commitStyles();
-      hVideoAnimation.cancel();
-    }
-    if (hSourceEl) {
-      hSourceEl.removeAttribute("src");
-    }
-    if (vVideoAnimation) {
-      vVideoAnimation.commitStyles();
-      vVideoAnimation.cancel();
-    }
-    if (vSourceEl) {
-      vSourceEl.removeAttribute("src");
-    }
-  } catch (_) {
-    if (hVideoAnimation) {
-      try {
-        hVideoAnimation.cancel();
-      } catch (_) {}
-    }
-    if (vVideoAnimation) {
-      try {
-        vVideoAnimation.cancel();
-      } catch (_) {}
-    }
-  }
+getVideoAnimation = (videoSrc) => {
+  return VIDEO_PREVIEW_STATE.animations[videoSrc];
 };
 
-const hideVideoPreview = async () => {
-  if (VIDEO_PREVIEW_STATE.controller) {
-    VIDEO_PREVIEW_STATE.controller.abort();
+setVideoAnimation = (videoSrc, animation) => {
+  VIDEO_PREVIEW_STATE.animations[videoSrc] = animation;
+};
+
+const showVideoPreview = async (videoSrc, direction) => {
+  const sourceEl = document.querySelector('source[src="' + videoSrc + '"]');
+
+  const videoEl = sourceEl.parentElement;
+
+  videoEl.play();
+
+  let currentAnim = getVideoAnimation(videoSrc);
+  if (currentAnim) {
+    if (currentAnim.pending) {
+      await currentAnim.finished;
+    }
   }
 
-  VIDEO_PREVIEW_STATE.controller = new AbortController();
-  const signal = VIDEO_PREVIEW_STATE.controller.signal;
+  VIDEO_PREVIEW_STATE.currentZ += 1;
+  videoEl.style.setProperty("z-index", VIDEO_PREVIEW_STATE.currentZ);
 
-  if (signal.aborted) return;
-
-  try {
-    hVideoAnimation = hplaceholderEl.animate(
+  setVideoAnimation(
+    videoSrc,
+    videoEl.animate(
       [
         {},
         {
-          opacity: 0,
-          transform: "translateY(33%)",
+          opacity: 1,
+          transform:
+            direction === VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
+              ? "translateX(0)"
+              : "translateY(0)",
         },
       ],
       {
-        fill: "forwards",
         duration: HOVER_ANIMATION_DURATION,
-        easing: HOVER_ANIMATION_OUT_EASING,
+        easing: HOVER_ANIMATION_EASING,
+        fill: "forwards",
+        iterations: 1,
       }
-    );
+    )
+  );
 
-    vVideoAnimation = vplaceholderEl.animate(
-      [
-        {},
+  getVideoAnimation(videoSrc)
+    .finished.then(() => {
+      const currentAnim = getVideoAnimation(videoSrc);
+      if (currentAnim) {
+        currentAnim.commitStyles();
+        currentAnim.cancel();
+        setVideoAnimation(videoSrc, null);
+      }
+    })
+    .catch((_) => {});
+};
+
+const hideVideoPreview = async (videoSrc, direction) => {
+  return new Promise(async (resolve) => {
+    const sourceEl = document.querySelector('source[src="' + videoSrc + '"]');
+    const videoEl = sourceEl.parentElement;
+
+    videoEl.pause();
+
+    const currentAnim = getVideoAnimation(videoSrc);
+
+    if (currentAnim) {
+      if (currentAnim.pending) {
+        await currentAnim.finished;
+      }
+      currentAnim.commitStyles();
+      currentAnim.cancel();
+    }
+
+    VIDEO_PREVIEW_STATE.currentZ += 1;
+    videoEl.style.setProperty("z-index", VIDEO_PREVIEW_STATE.currentZ);
+
+    setVideoAnimation(
+      videoSrc,
+      videoEl.animate(
+        [
+          {},
+          {
+            opacity: 0,
+            transform:
+              direction === VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
+                ? "translateX(-30%)"
+                : "translateY(-30%)",
+          },
+        ],
         {
-          opacity: 0,
-          transform: "translateX(33%)",
-        },
-      ],
-      {
-        fill: "forwards",
-        duration: HOVER_ANIMATION_DURATION,
-        easing: HOVER_ANIMATION_OUT_EASING,
-      }
+          duration: HOVER_ANIMATION_DURATION,
+          easing: HOVER_ANIMATION_OUT_EASING,
+          fill: "forwards",
+          iterations: 1,
+        }
+      )
     );
 
-    signal.addEventListener("abort", () => {
-      if (hVideoAnimation) {
-        try {
-          hVideoAnimation.commitStyles();
-          hVideoAnimation.cancel();
-        } catch (_) {}
-      }
-      if (vVideoAnimation) {
-        try {
-          vVideoAnimation.commitStyles();
-          vVideoAnimation.cancel();
-        } catch (_) {}
-      }
-    });
+    getVideoAnimation(videoSrc)
+      .finished.then(() => {
+        const currentVideoAnim = getVideoAnimation(videoSrc);
+        if (currentVideoAnim) {
+          currentVideoAnim.commitStyles();
+          currentVideoAnim.cancel();
 
-    await Promise.all([hVideoAnimation.finished, vVideoAnimation.finished]);
+          videoEl.style.setProperty(
+            "transform",
+            direction === VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
+              ? "translateX(30%)"
+              : "translateY(30%)"
+          );
+          setVideoAnimation(videoSrc, null);
+        }
 
-    if (signal.aborted) return;
-
-    if (hVideoAnimation) {
-      hVideoAnimation.commitStyles();
-      hplaceholderEl.style.setProperty("transform", "translateY(-55%)");
-      hVideoAnimation.cancel();
-    }
-    if (hSourceEl) {
-      hSourceEl.removeAttribute("src");
-    }
-    if (vVideoAnimation) {
-      vVideoAnimation.commitStyles();
-      vplaceholderEl.style.setProperty("transform", "translateX(-55%)");
-      vVideoAnimation.cancel();
-    }
-    if (vSourceEl) {
-      vSourceEl.removeAttribute("src");
-    }
-
-    VIDEO_PREVIEW_STATE.verticalSrc = null;
-    VIDEO_PREVIEW_STATE.horizontalSrc = null;
-  } catch (_) {
-    if (hVideoAnimation) {
-      try {
-        hVideoAnimation.cancel();
-      } catch (_) {}
-    }
-    if (vVideoAnimation) {
-      try {
-        vVideoAnimation.cancel();
-      } catch (_) {}
-    }
-  }
+        resolve();
+      })
+      .catch((_) => {});
+  });
 };
 
 const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -337,28 +280,106 @@ const handleResize = () => {
   }
 };
 
-const handleVideoPreviewEvents = (e) => {
-  if (handleVideoPreviewEventsDebounceTimeout) {
-    clearTimeout(handleVideoPreviewEventsDebounceTimeout);
+const handleVideoPreviewEvents = async (e) => {
+  if (mouseLeaveTimeout) {
+    clearTimeout(mouseLeaveTimeout);
   }
-  handleVideoPreviewEventsDebounceTimeout = setTimeout(() => {
-    const { verticalSrc, horizontalSrc, action } = e.detail;
-    if (verticalSrc && horizontalSrc && action === "show") {
-      showVideoPreview(verticalSrc, horizontalSrc);
-    } else if (verticalSrc && horizontalSrc && action === "hide") {
-      hideVideoPreview(verticalSrc, horizontalSrc);
+  const currentTime = Date.now();
+
+  const { verticalSrc, horizontalSrc, action } = e.detail;
+
+  if (verticalSrc && horizontalSrc && action === "show") {
+    VIDEO_PREVIEW_STATE.lastHoverTime = currentTime;
+    const promises = [];
+    if (
+      VIDEO_PREVIEW_STATE.hoverVert &&
+      VIDEO_PREVIEW_STATE.hoverVert !== verticalSrc
+    ) {
+      promises.push(
+        hideVideoPreview(
+          VIDEO_PREVIEW_STATE.hoverVert,
+          VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
+        )
+      );
     }
-  }, HOVER_ANIMATION_DURATION);
+
+    if (
+      VIDEO_PREVIEW_STATE.hoverHor &&
+      VIDEO_PREVIEW_STATE.hoverHor !== horizontalSrc
+    ) {
+      promises.push(
+        hideVideoPreview(
+          VIDEO_PREVIEW_STATE.hoverHor,
+          VIDEO_PREVIEW_ANIMATION_DIRECTION.HORIZONTAL
+        )
+      );
+    }
+
+    const startSrcHoverHor = horizontalSrc;
+    const startSrcHoverVert = verticalSrc;
+    VIDEO_PREVIEW_STATE.hoverHor = horizontalSrc;
+    VIDEO_PREVIEW_STATE.hoverVert = verticalSrc;
+
+    await Promise.all(promises);
+
+    if (
+      VIDEO_PREVIEW_STATE.hoverHor !== startSrcHoverHor ||
+      VIDEO_PREVIEW_STATE.hoverVert !== startSrcHoverVert
+    ) {
+      return;
+    }
+
+    if (VIDEO_PREVIEW_STATE.lastHoverTime > currentTime) {
+      return;
+    }
+
+    showVideoPreview(verticalSrc, VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL);
+    showVideoPreview(
+      horizontalSrc,
+      VIDEO_PREVIEW_ANIMATION_DIRECTION.HORIZONTAL
+    );
+  } else if (action === "hide") {
+    VIDEO_PREVIEW_STATE.lastLeaveTime = currentTime;
+
+    mouseLeaveTimeout = setTimeout(async () => {
+      const promises = [];
+      if (VIDEO_PREVIEW_STATE.hoverHor === horizontalSrc) {
+        promises.push(
+          hideVideoPreview(
+            VIDEO_PREVIEW_STATE.hoverHor,
+            VIDEO_PREVIEW_ANIMATION_DIRECTION.HORIZONTAL
+          )
+        );
+      }
+      if (VIDEO_PREVIEW_STATE.hoverVert === verticalSrc) {
+        promises.push(
+          hideVideoPreview(
+            VIDEO_PREVIEW_STATE.hoverVert,
+            VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
+          )
+        );
+      }
+      await Promise.all(promises);
+
+      if (
+        VIDEO_PREVIEW_STATE.hoverHor !== horizontalSrc ||
+        VIDEO_PREVIEW_STATE.hoverVert !== verticalSrc
+      ) {
+        return;
+      }
+      if (
+        VIDEO_PREVIEW_STATE.lastHoverTime > VIDEO_PREVIEW_STATE.lastLeaveTime
+      ) {
+        return;
+      }
+      VIDEO_PREVIEW_STATE.hoverHor = null;
+      VIDEO_PREVIEW_STATE.hoverVert = null;
+    }, HOVER_ANIMATION_DURATION * 2);
+  }
 };
 
 const handleOnLoad = () => {
   setTheme(preferredTheme);
-
-  vplaceholderEl = document.getElementById("v_vplaceholder");
-  hplaceholderEl = document.getElementById("v_hplaceholder");
-
-  vSourceEl = vplaceholderEl.querySelector("source");
-  hSourceEl = hplaceholderEl.querySelector("source");
 
   const linksWithVerticalVideoPlaceholder = document.querySelectorAll(
     "[data-vvplaceholder]"
@@ -382,11 +403,11 @@ const handleOnLoad = () => {
   );
 
   linksWithVerticalVideoPlaceholder.forEach((el) => {
-    el.addEventListener("mouseenter", handleLinkHover);
+    el.addEventListener("mouseleave", handleLinkMouseLeave);
   });
 
   linksWithVerticalVideoPlaceholder.forEach((el) => {
-    el.addEventListener("mouseleave", handleLinkMouseLeave);
+    el.addEventListener("mouseenter", handleLinkHover);
   });
 
   handleResize();

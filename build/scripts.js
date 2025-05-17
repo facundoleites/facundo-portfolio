@@ -32,38 +32,10 @@ const THEMES = {
   },
   AVAILABLE_THEMES = Object.keys(THEMES),
   FONT_MAX_SIZE = 20,
-  FONT_MIN_SIZE = 8,
-  HOVER_ANIMATION_DURATION = 250,
-  HOVER_ANIMATION_EASING = "cubic-bezier(0.22, 1, 0.36, 1)",
-  HOVER_ANIMATION_OUT_EASING = "cubic-bezier(0.64, 0, 0.78, 0)",
-  VIDEO_PREVIEW_STATE = {
-    currentZ: 100,
-    controller: new AbortController(),
-    hoverVert: null,
-    hoverHor: null,
-    lastHoverTime: 0,
-    lastLeaveTime: 0,
-    animations: {
-      "static/videos/art_facundoleites_mobile.webm": null,
-      "static/videos/daily_tsurunomundo_mobile.webm": null,
-      "static/videos/felicette_dev_mobile.webm": null,
-      "static/videos/tsurunomundo_mobile.webm": null,
-      "static/videos/art_facundoleites_wide.webm": null,
-      "static/videos/daily_tsurunomundo_wide.webm": null,
-      "static/videos/felicette_dev_wide.webm": null,
-      "static/videos/tsurunomundo_wide.webm": null,
-    },
-  },
-  VIDEO_PREVIEW_ANIMATION_DIRECTION = {
-    VERTICAL: "vertical",
-    HORIZONTAL: "horizontal",
-  };
+  FONT_MIN_SIZE = 8;
 
 let currentTheme = "dark",
   currentFontSize = 16;
-
-let handleVideoPreviewEventsDebounceTimeout,
-  mouseLeaveTimeout = 0;
 
 let vplaceholderEl, hplaceholderEl, vSourceEl, hSourceEl;
 
@@ -118,127 +90,22 @@ const decrementFontSize = () => {
   setFontSize(currentFontSize);
 };
 
-getVideoAnimation = (videoSrc) => {
-  return VIDEO_PREVIEW_STATE.animations[videoSrc];
-};
-
-setVideoAnimation = (videoSrc, animation) => {
-  VIDEO_PREVIEW_STATE.animations[videoSrc] = animation;
-};
-
-const showVideoPreview = async (videoSrc, direction) => {
+const showVideoPreview = (videoSrc) => {
   const sourceEl = document.querySelector('source[src="' + videoSrc + '"]');
-
   const videoEl = sourceEl.parentElement;
 
   videoEl.play();
 
-  let currentAnim = getVideoAnimation(videoSrc);
-  if (currentAnim) {
-    if (currentAnim.pending) {
-      await currentAnim.finished;
-    }
-  }
-
-  VIDEO_PREVIEW_STATE.currentZ += 1;
-  videoEl.style.setProperty("z-index", VIDEO_PREVIEW_STATE.currentZ);
-
-  setVideoAnimation(
-    videoSrc,
-    videoEl.animate(
-      [
-        {},
-        {
-          opacity: 1,
-          transform:
-            direction === VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
-              ? "translateX(0)"
-              : "translateY(0)",
-        },
-      ],
-      {
-        duration: HOVER_ANIMATION_DURATION,
-        easing: HOVER_ANIMATION_EASING,
-        fill: "forwards",
-        iterations: 1,
-      }
-    )
-  );
-
-  getVideoAnimation(videoSrc)
-    .finished.then(() => {
-      const currentAnim = getVideoAnimation(videoSrc);
-      if (currentAnim) {
-        currentAnim.commitStyles();
-        currentAnim.cancel();
-        setVideoAnimation(videoSrc, null);
-      }
-    })
-    .catch((_) => {});
+  videoEl.classList.add("visible");
 };
 
-const hideVideoPreview = async (videoSrc, direction) => {
-  return new Promise(async (resolve) => {
-    const sourceEl = document.querySelector('source[src="' + videoSrc + '"]');
-    const videoEl = sourceEl.parentElement;
+const hideVideoPreview = (videoSrc) => {
+  const sourceEl = document.querySelector('source[src="' + videoSrc + '"]');
+  const videoEl = sourceEl.parentElement;
 
-    videoEl.pause();
+  videoEl.pause();
 
-    const currentAnim = getVideoAnimation(videoSrc);
-
-    if (currentAnim) {
-      if (currentAnim.pending) {
-        await currentAnim.finished;
-      }
-      currentAnim.commitStyles();
-      currentAnim.cancel();
-    }
-
-    VIDEO_PREVIEW_STATE.currentZ += 1;
-    videoEl.style.setProperty("z-index", VIDEO_PREVIEW_STATE.currentZ);
-
-    setVideoAnimation(
-      videoSrc,
-      videoEl.animate(
-        [
-          {},
-          {
-            opacity: 0,
-            transform:
-              direction === VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
-                ? "translateX(-30%)"
-                : "translateY(-30%)",
-          },
-        ],
-        {
-          duration: HOVER_ANIMATION_DURATION,
-          easing: HOVER_ANIMATION_OUT_EASING,
-          fill: "forwards",
-          iterations: 1,
-        }
-      )
-    );
-
-    getVideoAnimation(videoSrc)
-      .finished.then(() => {
-        const currentVideoAnim = getVideoAnimation(videoSrc);
-        if (currentVideoAnim) {
-          currentVideoAnim.commitStyles();
-          currentVideoAnim.cancel();
-
-          videoEl.style.setProperty(
-            "transform",
-            direction === VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
-              ? "translateX(30%)"
-              : "translateY(30%)"
-          );
-          setVideoAnimation(videoSrc, null);
-        }
-
-        resolve();
-      })
-      .catch((_) => {});
-  });
+  videoEl.classList.remove("visible");
 };
 
 const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -270,10 +137,13 @@ const handleLinkHover = async (e) => {
 };
 
 const handleResize = () => {
+
+
   const width = window.innerWidth - 40;
   const bodyEl = document.getElementsByTagName("body")[0];
 
   if (width < 576) {
+
     bodyEl.style.setProperty("--fg-grid-width", `${width}px`);
   } else {
     bodyEl.style.setProperty("--fg-grid-width", ``);
@@ -281,101 +151,23 @@ const handleResize = () => {
 };
 
 const handleVideoPreviewEvents = async (e) => {
-  if (mouseLeaveTimeout) {
-    clearTimeout(mouseLeaveTimeout);
-  }
-  const currentTime = Date.now();
-
   const { verticalSrc, horizontalSrc, action } = e.detail;
 
   if (verticalSrc && horizontalSrc && action === "show") {
-    VIDEO_PREVIEW_STATE.lastHoverTime = currentTime;
-    const promises = [];
-    if (
-      VIDEO_PREVIEW_STATE.hoverVert &&
-      VIDEO_PREVIEW_STATE.hoverVert !== verticalSrc
-    ) {
-      promises.push(
-        hideVideoPreview(
-          VIDEO_PREVIEW_STATE.hoverVert,
-          VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
-        )
-      );
-    }
-
-    if (
-      VIDEO_PREVIEW_STATE.hoverHor &&
-      VIDEO_PREVIEW_STATE.hoverHor !== horizontalSrc
-    ) {
-      promises.push(
-        hideVideoPreview(
-          VIDEO_PREVIEW_STATE.hoverHor,
-          VIDEO_PREVIEW_ANIMATION_DIRECTION.HORIZONTAL
-        )
-      );
-    }
-
-    const startSrcHoverHor = horizontalSrc;
-    const startSrcHoverVert = verticalSrc;
-    VIDEO_PREVIEW_STATE.hoverHor = horizontalSrc;
-    VIDEO_PREVIEW_STATE.hoverVert = verticalSrc;
-
-    await Promise.all(promises);
-
-    if (
-      VIDEO_PREVIEW_STATE.hoverHor !== startSrcHoverHor ||
-      VIDEO_PREVIEW_STATE.hoverVert !== startSrcHoverVert
-    ) {
-      return;
-    }
-
-    if (VIDEO_PREVIEW_STATE.lastHoverTime > currentTime) {
-      return;
-    }
-
-    showVideoPreview(verticalSrc, VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL);
-    showVideoPreview(
-      horizontalSrc,
-      VIDEO_PREVIEW_ANIMATION_DIRECTION.HORIZONTAL
-    );
-  } else if (action === "hide") {
-    VIDEO_PREVIEW_STATE.lastLeaveTime = currentTime;
-
-    mouseLeaveTimeout = setTimeout(async () => {
-      const promises = [];
-      if (VIDEO_PREVIEW_STATE.hoverHor === horizontalSrc) {
-        promises.push(
-          hideVideoPreview(
-            VIDEO_PREVIEW_STATE.hoverHor,
-            VIDEO_PREVIEW_ANIMATION_DIRECTION.HORIZONTAL
-          )
-        );
-      }
-      if (VIDEO_PREVIEW_STATE.hoverVert === verticalSrc) {
-        promises.push(
-          hideVideoPreview(
-            VIDEO_PREVIEW_STATE.hoverVert,
-            VIDEO_PREVIEW_ANIMATION_DIRECTION.VERTICAL
-          )
-        );
-      }
-      await Promise.all(promises);
-
-      if (
-        VIDEO_PREVIEW_STATE.hoverHor !== horizontalSrc ||
-        VIDEO_PREVIEW_STATE.hoverVert !== verticalSrc
-      ) {
-        return;
-      }
-      if (
-        VIDEO_PREVIEW_STATE.lastHoverTime > VIDEO_PREVIEW_STATE.lastLeaveTime
-      ) {
-        return;
-      }
-      VIDEO_PREVIEW_STATE.hoverHor = null;
-      VIDEO_PREVIEW_STATE.hoverVert = null;
-    }, HOVER_ANIMATION_DURATION * 2);
+    showVideoPreview(verticalSrc);
+    showVideoPreview(horizontalSrc);
+  } else {
+    hideVideoPreview(verticalSrc);
+    hideVideoPreview(horizontalSrc);
   }
+};
+
+const handleMouseMove = (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+
+  document.documentElement.style.setProperty("--mouse-x", `${x}px`);
+  document.documentElement.style.setProperty("--mouse-y", `${y}px`);
 };
 
 const handleOnLoad = () => {
@@ -396,11 +188,20 @@ const handleOnLoad = () => {
     .addEventListener("click", decrementFontSize);
 
   window.addEventListener("resize", handleResize);
+  window.addEventListener("mousemove", handleMouseMove);
 
   videoPreviewEventEmitter.addEventListener(
     "videoPreview",
     handleVideoPreviewEvents
   );
+
+  linksWithVerticalVideoPlaceholder.forEach((el) => {
+    el.addEventListener("focus", handleLinkHover);
+  });
+
+  linksWithVerticalVideoPlaceholder.forEach((el) => {
+    el.addEventListener("blur", handleLinkMouseLeave);
+  });
 
   linksWithVerticalVideoPlaceholder.forEach((el) => {
     el.addEventListener("mouseleave", handleLinkMouseLeave);

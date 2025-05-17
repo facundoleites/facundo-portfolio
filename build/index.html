@@ -23,6 +23,7 @@
     <link href="static/css/absolute-grid.css" rel="stylesheet" />
     <script src="scripts.js" defer></script>
   </head>
+
   <body>
     <div class="bg">
       <div class="fg-grid">
@@ -36,57 +37,58 @@
         </div>
       </div>
     </div>
-    <header>
+    <section class="video-hover">
       <div class="fg-grid">
         <div class="fg-row">
-          <div class="fg-col-6 md:fg-col-6 lg:fg-col-4">
-            <h1>Facundo Leites</h1>
+          <div class="fg-col-5 lg:fg-col-2 lg:fg-offset-4">
+            <div class="video-hover-wrapper">
+              <video autoplay loop muted playsinline data-vertical="true">
+                <source
+                  src="static/videos/art_facundoleites_mobile.webm"
+                  type="video/webm"
+                />
+              </video>
+              <video autoplay loop muted playsinline data-vertical="true">
+                <source
+                  src="static/videos/daily_tsurunomundo_mobile.webm"
+                  type="video/webm"
+                />
+              </video>
+              <video autoplay loop muted playsinline data-vertical="true">
+                <source
+                  src="static/videos/felicette_dev_mobile.webm"
+                  type="video/webm"
+                />
+              </video>
+              <video autoplay loop muted playsinline data-vertical="true">
+                <source
+                  src="static/videos/tsurunomundo_mobile.webm"
+                  type="video/webm"
+                />
+              </video>
+            </div>
           </div>
-          <div class="fg-col-6 md:fg-col-6 lg:fg-col-5">
-            <div class="hover-preview">
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateY(30%)"
-              >
+          <div class="fg-col-7 lg:fg-col-4">
+            <div class="video-hover-wrapper">
+              <video autoplay loop muted playsinline>
                 <source
                   type="video/webm"
                   src="static/videos/art_facundoleites_wide.webm"
                 />
               </video>
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateY(30%)"
-              >
+              <video autoplay loop muted playsinline>
                 <source
                   type="video/webm"
                   src="static/videos/daily_tsurunomundo_wide.webm"
                 />
               </video>
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateY(30%)"
-              >
+              <video autoplay loop muted playsinline>
                 <source
                   type="video/webm"
                   src="static/videos/felicette_dev_wide.webm"
                 />
               </video>
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateY(30%)"
-              >
+              <video autoplay loop muted playsinline>
                 <source
                   type="video/webm"
                   src="static/videos/tsurunomundo_wide.webm"
@@ -96,61 +98,24 @@
           </div>
         </div>
       </div>
+    </section>
+    <header>
+      <div class="fg-grid">
+        <div class="fg-row">
+          <div class="fg-col-6 md:fg-col-6 lg:fg-col-4">
+            <h1>Facundo Leites</h1>
+          </div>
+          <div class="fg-col-6 md:fg-col-6 lg:fg-col-5">
+            <div class="hover-preview"></div>
+          </div>
+        </div>
+      </div>
     </header>
     <main>
       <div class="fg-grid">
         <div class="fg-row">
           <div class="fg-col-3 md:fg-col-4 lg:fg-col-2 lg:fg-offset-1">
-            <div class="hover-preview">
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateX(30%)"
-              >
-                <source
-                  src="static/videos/art_facundoleites_mobile.webm"
-                  type="video/webm"
-                />
-              </video>
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateX(30%)"
-              >
-                <source
-                  src="static/videos/daily_tsurunomundo_mobile.webm"
-                  type="video/webm"
-                />
-              </video>
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateX(30%)"
-              >
-                <source
-                  src="static/videos/felicette_dev_mobile.webm"
-                  type="video/webm"
-                />
-              </video>
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="transform: translateX(30%)"
-              >
-                <source
-                  src="static/videos/tsurunomundo_mobile.webm"
-                  type="video/webm"
-                />
-              </video>
-            </div>
+            <div class="hover-preview"></div>
           </div>
           <div class="fg-col-9 md:fg-col-8 lg:fg-col-3 lg:fg-offset-2">
             <h2>Art</h2>
@@ -329,6 +294,19 @@
           </div>
           <div class="fg-col-6 md:fg-col-2">
             <ul>
+              <li>
+                <p>
+                  <small>
+                    View the source code at
+                    <a
+                      href="https://github.com/facundoleites/facundo-portfolio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >github/facundoleites/facundo-portfolio</a
+                    >
+                  </small>
+                </p>
+              </li>
               <li>
                 <a
                   href="https://felicette.app"

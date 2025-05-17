@@ -1,6 +1,6 @@
 # Facundo Leites portfolio
 
-A simple, pure HTML and CSS site designed to showcase and centralize my work.
+A simple, pure HTML, CSS and JS site designed to showcase and centralize my work.
 
 ## Laptop
 

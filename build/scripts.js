@@ -38,8 +38,6 @@ const THEMES = {
 let currentTheme = "dark",
   currentFontSize = 16;
 
-let vplaceholderEl, hplaceholderEl, vSourceEl, hSourceEl;
-
 const videoPreviewEventEmitter = new EventTarget();
 
 const setTheme = (theme) => {

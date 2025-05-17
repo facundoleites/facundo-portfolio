@@ -4,6 +4,7 @@ const getRandomColor = () => {
   const blue = Math.floor(Math.random() * 256);
   return `rgb(${red}, ${green}, ${blue})`;
 };
+
 const THEMES = {
     light: {
       background: "rgb(255,255,255)",
@@ -95,7 +96,6 @@ const showVideoPreview = (videoSrc) => {
   const videoEl = sourceEl.parentElement;
 
   videoEl.play();
-
   videoEl.classList.add("visible");
 };
 
@@ -104,7 +104,6 @@ const hideVideoPreview = (videoSrc) => {
   const videoEl = sourceEl.parentElement;
 
   videoEl.pause();
-
   videoEl.classList.remove("visible");
 };
 
@@ -137,13 +136,10 @@ const handleLinkHover = async (e) => {
 };
 
 const handleResize = () => {
-
-
   const width = window.innerWidth - 40;
   const bodyEl = document.getElementsByTagName("body")[0];
 
   if (width < 576) {
-
     bodyEl.style.setProperty("--fg-grid-width", `${width}px`);
   } else {
     bodyEl.style.setProperty("--fg-grid-width", ``);
@@ -197,17 +193,8 @@ const handleOnLoad = () => {
 
   linksWithVerticalVideoPlaceholder.forEach((el) => {
     el.addEventListener("focus", handleLinkHover);
-  });
-
-  linksWithVerticalVideoPlaceholder.forEach((el) => {
     el.addEventListener("blur", handleLinkMouseLeave);
-  });
-
-  linksWithVerticalVideoPlaceholder.forEach((el) => {
     el.addEventListener("mouseleave", handleLinkMouseLeave);
-  });
-
-  linksWithVerticalVideoPlaceholder.forEach((el) => {
     el.addEventListener("mouseenter", handleLinkHover);
   });
 

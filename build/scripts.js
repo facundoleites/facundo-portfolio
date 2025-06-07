@@ -5,30 +5,37 @@ const getRandomColor = () => {
   return `rgb(${red}, ${green}, ${blue})`;
 };
 
+const DEFAULT_FONT = "Karrik Regular";
+const DEFAULT_FONT_SIZE = "16px";
+
 const THEMES = {
     light: {
       background: "rgb(255,255,255)",
       color: "rgb(51,51,51)",
       accentColor: "#eee",
-      fontFamily: '"Space Grotesk", sans-serif',
+      fontFamily: `"${DEFAULT_FONT}", sans-serif`,
+      fontSize: DEFAULT_FONT_SIZE,
     },
     dark: {
       background: "rgb(34,34,34)",
       color: "rgb(255,255,255)",
       accentColor: "rgb(51,51,51)",
-      fontFamily: '"Space Grotesk", sans-serif',
+      fontFamily: `"${DEFAULT_FONT}", sans-serif`,
+      fontSize: DEFAULT_FONT_SIZE,
     },
     outro: {
       background: "rgb(173,236,240)",
       color: "black",
       accentColor: "white",
       fontFamily: '"Noto Serif", serif',
+      fontSize: "16px",
     },
     random: {
       background: getRandomColor(),
       color: getRandomColor(),
       accentColor: getRandomColor(),
-      fontFamily: '"Space Grotesk", sans-serif',
+      fontFamily: `"${DEFAULT_FONT}", sans-serif`,
+      fontSize: DEFAULT_FONT_SIZE,
     },
   },
   AVAILABLE_THEMES = Object.keys(THEMES),
@@ -52,6 +59,10 @@ const setTheme = (theme) => {
   document.documentElement.style.setProperty(
     "--font-family",
     THEMES[theme].fontFamily
+  );
+  document.documentElement.style.setProperty(
+    "--font-size",
+    THEMES[theme].fontSize
   );
   document.documentElement.style.setProperty("--color", THEMES[theme].color);
   currentTheme = theme;
@@ -197,6 +208,59 @@ const handleOnLoad = () => {
   });
 
   handleResize();
+  loadBgImage();
+  loadFonts().then(() => {
+    document.documentElement.classList.add("fonts-loaded");
+  });
 };
 
 document.addEventListener("DOMContentLoaded", handleOnLoad);
+
+const loadKarrikFont = () => {
+  return new Promise((resolve) => {
+    const font = new FontFace(
+      "Karrik Regular",
+      "url(static/fonts/Karrik-Regular.ttf)",
+      { style: "normal", weight: "400" }
+    );
+
+    font.load().then(() => {
+      document.fonts.add(font);
+      resolve();
+    });
+  });
+};
+
+const loadKarrikItalicFont = () => {
+  return new Promise((resolve) => {
+    const font = new FontFace(
+      "Karrik Italic",
+      "url(static/fonts/Karrik-Italic.ttf)",
+      { style: "italic", weight: "400" }
+    );
+
+    font.load().then(() => {
+      document.fonts.add(font);
+      resolve();
+    });
+  });
+};
+
+const loadFonts = () => {
+  return Promise.all([loadKarrikFont(), loadKarrikItalicFont()]);
+};
+
+const loadBgImage = () => {
+  const imgEl = document.querySelector(".bg img");
+
+  const handleLoad = () => {
+    imgEl.classList.add("loaded");
+  };
+
+  if (imgEl.complete) {
+    handleLoad();
+    return;
+  }
+
+  imgEl.addEventListener("load", handleLoad);
+};

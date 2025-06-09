@@ -17,7 +17,7 @@
     <title>Facundo Leites</title>
     <link href="static/css/main.css" rel="stylesheet" />
     <link href="static/css/absolute-grid.css" rel="stylesheet" />
-    <script src="scripts.js" defer></script>
+    <script src="scripts.mjs" type="module" defer></script>
   </head>
 
   <body>
@@ -25,10 +25,12 @@
       <div class="fg-grid">
         <div class="fg-row">
           <div class="fg-col-3 md:fg-col-4 lg:fg-col-3 lg:fg-offset-2">
-            <img
-              src="static/images/profile.webp"
-              alt="Photography of Facundo Leites. A 31 years old male, with short black hair and a moustache wearing a black oversized t-shirt."
-            />
+            <div class="bg-img-wrapper">
+              <img
+                src="static/images/profile.webp"
+                alt="Photography of Facundo Leites. A 31 years old male, with short black hair and a moustache wearing a black oversized t-shirt."
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -134,7 +136,10 @@
           <div class="fg-col-3 md:fg-col-4 lg:fg-col-3 lg:fg-offset-1">
             <h2>Things I do</h2>
           </div>
-          <div class="fg-col-9 md:fg-col-8 lg:fg-col-3 lg:fg-offset-1">
+          <div
+            class="fg-col-9 md:fg-col-8 lg:fg-col-3 lg:fg-offset-1"
+            data-link-list="true"
+          >
             <h3>Art</h3>
             <ul>
               <li>
@@ -205,6 +210,7 @@
           </div>
           <div
             class="fg-col-9 md:fg-col-8 fg-offset-3 md:fg-offset-4 lg:fg-offset-0 lg:fg-col-3 xl:fg-offset-0"
+            data-link-list="true"
           >
             <h3>Code</h3>
             <ul>
@@ -356,7 +362,7 @@
           </div>
         </div>
         <div class="fg-row">
-          <div class="fg-col-6 fg-offset-5">
+          <div class="fg-col-6 fg-offset-6 md:fg-offset-4 lg:fg-offset-5">
             <ul>
               <li>
                 <a

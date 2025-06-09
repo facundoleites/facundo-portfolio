@@ -1,8 +1,27 @@
+import "./static/js/chroma.min.js";
+
 const getRandomColor = () => {
-  const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-  return `rgb(${red}, ${green}, ${blue})`;
+  const randomColor = chroma.random();
+  return randomColor.hex();
+};
+
+const generateRandomTheme = () => {
+  const background = getRandomColor();
+
+  let color = getRandomColor();
+  while (chroma.contrast(background, color) < 4.5) {
+    color = getRandomColor();
+  }
+
+  const scale = chroma.scale([background, color]).colors(8);
+  const accentColor = scale[1];
+  return {
+    background,
+    color,
+    accentColor,
+    fontFamily: `"Karrik Regular", sans-serif`,
+    fontSize: "16px",
+  };
 };
 
 const DEFAULT_FONT = "Karrik Regular";
@@ -30,13 +49,7 @@ const THEMES = {
       fontFamily: '"Noto Serif", serif',
       fontSize: "16px",
     },
-    random: {
-      background: getRandomColor(),
-      color: getRandomColor(),
-      accentColor: getRandomColor(),
-      fontFamily: `"${DEFAULT_FONT}", sans-serif`,
-      fontSize: DEFAULT_FONT_SIZE,
-    },
+    random: generateRandomTheme(),
   },
   AVAILABLE_THEMES = Object.keys(THEMES),
   FONT_MAX_SIZE = 20,
@@ -75,9 +88,7 @@ const toggleTheme = (e) => {
   const nextTheme = AVAILABLE_THEMES[nextIndex];
 
   if (nextTheme === "random") {
-    THEMES.random.background = getRandomColor();
-    THEMES.random.color = getRandomColor();
-    THEMES.random.accentColor = getRandomColor();
+    THEMES.random = generateRandomTheme();
   }
   setTheme(nextTheme);
 };

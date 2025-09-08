@@ -26,6 +26,13 @@ const generateRandomTheme = () => {
 
 const DEFAULT_FONT = "Karrik Regular";
 const DEFAULT_FONT_SIZE = "16px";
+const BG_IMAGE = "static/images/profile2.webp";
+const BG_IMAGE_ALT = "static/images/profile3.webp";
+
+const BG_IMAGE_ALTTEXT =
+  "Black and White photography of Facundo Leites. A 31 years old male, with short black hair and a moustache wearing a black t-shirt.";
+const BG_IMAGE_ALT_ALTTEXT =
+  "Black and White photography of Facundo Leites. A 31 years old male, with short black hair and a moustache wearing a black t-shirt holding an orange adult female cat with his hands.";
 
 const THEMES = {
     light: {
@@ -81,14 +88,70 @@ const setTheme = (theme) => {
   currentTheme = theme;
 };
 
+let bgFadeOutAnimation = null;
+let bgFadeInAnimation = null;
+const changeBgImage = (newImage, newAltText) => {
+  const bgImgEl = document.querySelector(".bg img");
+
+  const currentSrc = bgImgEl.getAttribute("src");
+  if (currentSrc === newImage) {
+    return;
+  }
+
+  if (bgFadeOutAnimation) {
+    bgFadeOutAnimation.cancel();
+  }
+  if (bgFadeInAnimation) {
+    bgFadeInAnimation.cancel();
+  }
+
+  bgFadeOutAnimation = bgImgEl.animate(
+    [
+      { opacity: 1, transform: "translateY(0)", offset: 0 },
+      { opacity: 0, transform: "translateY(50%)", offset: 1 },
+    ],
+    {
+      duration: 400,
+      easing: "ease-in",
+      //      easing: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      fill: "forwards",
+    }
+  );
+
+  bgFadeOutAnimation.onfinish = () => {
+    bgImgEl.src = newImage;
+    bgImgEl.alt = newAltText;
+
+    bgFadeInAnimation = bgImgEl.animate(
+      [
+        { opacity: 0, transform: "translateY(-50%)", offset: 0 },
+        { opacity: 1, transform: "translateY(0)", offset: 1 },
+      ],
+      {
+        duration: 400,
+        easing: "ease-out",
+        //      easing: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        fill: "forwards",
+      }
+    );
+  };
+};
+
 const toggleTheme = (e) => {
   e.preventDefault();
+  const bgImgEl = document.querySelector(".bg img");
   const index = AVAILABLE_THEMES.indexOf(currentTheme);
   let nextIndex = (index + 1) % AVAILABLE_THEMES.length;
   const nextTheme = AVAILABLE_THEMES[nextIndex];
 
   if (nextTheme === "random") {
     THEMES.random = generateRandomTheme();
+  }
+
+  if (["outro", "random"].includes(nextTheme)) {
+    changeBgImage(BG_IMAGE_ALT, BG_IMAGE_ALT_ALTTEXT);
+  } else {
+    changeBgImage(BG_IMAGE, BG_IMAGE_ALTTEXT);
   }
   setTheme(nextTheme);
 };
@@ -261,11 +324,24 @@ const loadFonts = () => {
   return Promise.all([loadKarrikFont(), loadKarrikItalicFont()]);
 };
 
+const loadAlternativeBgImage = () => {
+  const img = new Image();
+
+  return new Promise((resolve) => {
+    img.onload = () => {
+      resolve();
+    };
+    img.src = BG_IMAGE_ALT;
+  });
+};
+
 const loadBgImage = () => {
   const imgEl = document.querySelector(".bg img");
 
   const handleLoad = () => {
-    imgEl.classList.add("loaded");
+    loadAlternativeBgImage().then(() => {
+      imgEl.classList.add("loaded");
+    });
   };
 
   if (imgEl.complete) {
